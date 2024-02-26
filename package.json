@@ -1,0 +1,23 @@
+{
+  "name": "github-graphql-client",
+  "version": "0.1.0",
+  "description": "Simple GitHub client to commit via their graphql APIs",
+  "main": "github.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "git",
+    "github",
+    "graphql",
+    "client",
+    "commit"
+  ],
+  "author": "Francesco Pira",
+  "license": "MIT",
+  "dependencies": {
+    "graphql": "^16.8.1",
+    "urql": "^4.0.6",
+    "yargs": "^17.7.2"
+  }
+}
