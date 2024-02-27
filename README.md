@@ -72,6 +72,14 @@ node github.js commit \
   --commitMessage 'stuff'
 ```
 
+## Tests
+
+Create a `.env` file with your `GITHUB_TOKEN`, then run:
+
+```sh
+npm test
+```
+
 ## License
 
 MIT
