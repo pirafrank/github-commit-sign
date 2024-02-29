@@ -17,30 +17,35 @@ yargs
         .option("owner", {
           describe: "Owner of the repository",
           demandOption: true,
+          alias: "o",
           type: "string",
         })
         .option("repo", {
           describe: "Name of the repository",
           demandOption: true,
+          alias: "r",
           type: "string",
         })
         .option("branch", {
           describe: "Name of the branch to commit to",
           demandOption: true,
+          alias: "b",
           type: "string",
         })
         .option("changed", {
           describe: "Paths of new or modified files",
-          alias: "added",
+          alias: "c",
           type: "array",
         })
         .option("deleted", {
           describe: "Paths of tracked deleted files",
+          alias: "d",
           type: "array",
         })
         .option("commitMessage", {
           describe: "Mandatory commit message",
           demandOption: true,
+          alias: "m",
           type: "string",
         })
         .option("commitDescription", {
@@ -49,12 +54,13 @@ yargs
         })
         .check((argv) => {
           if (!argv.changed && !argv.deleted) {
-            throw new Error("Missing required argument: either specify changed or deleted files.");
+            throw new Error(
+              "Missing required argument: either specify changed or deleted files."
+            );
           }
           extractChangedOrDeletedFiles(argv.changed, argv.deleted);
           return true;
-        })
-        ;
+        });
     },
     (argv) => {
       const {
@@ -93,16 +99,19 @@ yargs
         .option("owner", {
           describe: "Owner of the repository",
           demandOption: true,
+          alias: "o",
           type: "string",
         })
         .option("repo", {
           describe: "Name of the repository",
           demandOption: true,
+          alias: "r",
           type: "string",
         })
         .option("branch", {
           describe: "Name of the branch to check for existence",
           demandOption: true,
+          alias: "b",
           type: "string",
         });
     },
@@ -124,4 +133,8 @@ yargs
   )
   .demandCommand()
   .version(CURRENT_VERSION)
+  .alias({
+    h: "help",
+    v: "version"
+  })
   .help().argv;
