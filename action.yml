@@ -8,6 +8,9 @@ inputs:
     description: 'Arguments to pass to the Dockerfile entrypoint.'
     required: true
     default: '--help'
+outputs:
+  commitUrl:
+    description: 'The URL of the commit if that was created successfully.'
 runs:
   using: 'docker'
   image: 'Dockerfile'

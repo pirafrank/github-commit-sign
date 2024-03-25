@@ -1,3 +1,4 @@
+const fs = require("fs");
 const yargs = require("yargs");
 const CURRENT_VERSION = require("./package.json").version;
 
@@ -7,6 +8,13 @@ const {
   createCommitOnBranch,
   checkIfBranchExists,
 } = require("./index");
+
+const appendLineToFile = (filename, line) => {
+  fs.appendFile(filename, `${line}\n`, function (err) {
+    if (err) throw err;
+    console.log(`Saved data to ${filename}.`);
+  });
+};
 
 yargs
   .command(
@@ -83,7 +91,13 @@ yargs
         commitDescription
       )
         .then((response) => {
-          console.log(JSON.stringify(response, null, 2));
+          console.log(`Commit created: ${response.commitUrl}`);
+          if (!!process.env.GITHUB_OUTPUT) {
+            appendLineToFile(
+              process.env.GITHUB_OUTPUT,
+              `commitUrl=${response.commitUrl}`
+            );
+          }
         })
         .catch((error) => {
           console.error("Failed to create commit:", error.message);
@@ -120,7 +134,6 @@ yargs
       checkIfBranchExists(owner, repo, branch)
         .then((response) => {
           const n = response ? "a" : "no";
-          //console.log(JSON.stringify(response, null, 2));
           console.log(
             `Repository ${owner}/${repo} has ${n} branch named '${branch}'`
           );

@@ -178,7 +178,10 @@ async function createCommitOnBranch(
     const response = await client
       .mutation(graphqlRequest.query, graphqlRequest.variables)
       .toPromise();
-    return response;
+    return {
+      data: response,
+      commitUrl: response?.data?.createCommitOnBranch?.commit?.url || null
+    };
   } catch (error) {
     console.error(
       `Error while performing commit action via GraphQL API: ${error.message}`
