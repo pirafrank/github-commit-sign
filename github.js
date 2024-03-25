@@ -3,7 +3,7 @@ const CURRENT_VERSION = require("./package.json").version;
 
 const {
   init,
-  extractChangedOrDeletedFiles,
+  checkChangedOrDeletedFiles,
   createCommitOnBranch,
   checkIfBranchExists,
 } = require("./index");
@@ -58,8 +58,7 @@ yargs
               "Missing required argument: either specify changed or deleted files."
             );
           }
-          extractChangedOrDeletedFiles(argv.changed, argv.deleted);
-          return true;
+          return checkChangedOrDeletedFiles(argv.changed, argv.deleted);
         });
     },
     (argv) => {

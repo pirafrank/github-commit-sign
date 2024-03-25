@@ -37,11 +37,15 @@ function init(token, apiUrl) {
   });
 }
 
-function arrayHasElements(array) {
-  return array && Array.isArray(array) && array.length > 0;
+function arrayIsArray(array) {
+  return !!array && Array.isArray(array);
 }
 
-function extractChangedOrDeletedFiles(changedFiles, deletedFiles) {
+function arrayHasElements(array) {
+  return arrayIsArray(array) && array.length > 0;
+}
+
+function checkChangedOrDeletedFiles(changedFiles, deletedFiles) {
   const changedFilesExist = arrayHasElements(changedFiles);
   const deletedFilesExist = arrayHasElements(deletedFiles);
 
@@ -49,9 +53,13 @@ function extractChangedOrDeletedFiles(changedFiles, deletedFiles) {
     throw new Error("No files specified as changed or deleted. Quitting.");
   }
 
+  return true;
+}
+
+function extractChangedOrDeletedFiles(changedFiles, deletedFiles) {
   return {
-    changedFiles: changedFilesExist ? changedFiles : [],
-    deletedFiles: deletedFilesExist ? deletedFiles : [],
+    changedFiles: arrayIsArray(changedFiles) ? changedFiles : [],
+    deletedFiles: arrayIsArray(deletedFiles) ? deletedFiles : [],
   };
 }
 
@@ -181,6 +189,7 @@ async function createCommitOnBranch(
 
 module.exports = {
   init,
+  checkChangedOrDeletedFiles,
   extractChangedOrDeletedFiles,
   createCommitOnBranch,
   checkIfBranchExists,
