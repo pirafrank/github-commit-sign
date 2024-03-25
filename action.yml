@@ -9,8 +9,12 @@ inputs:
     required: true
     default: '--help'
 outputs:
+  command:
+    description: 'The command that was executed.'
   commitUrl:
     description: 'The URL of the commit if that was created successfully.'
+  hasBranch:
+    description: 'Whether the branch already exists.'
 runs:
   using: 'docker'
   image: 'Dockerfile'

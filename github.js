@@ -9,6 +9,9 @@ const {
   checkIfBranchExists,
 } = require("./index");
 
+const commitCommand = "commit";
+const branchCommand = "branch"
+
 const appendLineToFile = (filename, line) => {
   fs.appendFile(filename, `${line}\n`, function (err) {
     if (err) throw err;
@@ -16,9 +19,19 @@ const appendLineToFile = (filename, line) => {
   });
 };
 
+const writeResultToGithubOutputFile = (results) => {
+  if (!!process.env.GITHUB_OUTPUT) {
+    let line = "";
+    results.forEach((result) => {
+      line += `${result.label}=${result.value}\n`;
+    });
+    appendLineToFile(process.env.GITHUB_OUTPUT, line);
+  }
+};
+
 yargs
   .command(
-    "commit",
+    commitCommand,
     "Create a commit on a branch",
     (yargs) => {
       yargs
@@ -92,12 +105,16 @@ yargs
       )
         .then((response) => {
           console.log(`Commit created: ${response.commitUrl}`);
-          if (!!process.env.GITHUB_OUTPUT) {
-            appendLineToFile(
-              process.env.GITHUB_OUTPUT,
-              `commitUrl=${response.commitUrl}`
-            );
-          }
+          writeResultToGithubOutputFile([
+            {
+              label: "command",
+              value: commitCommand,
+            },
+            {
+              label: "commitUrl",
+              value: response.commitUrl,
+            },
+          ]);
         })
         .catch((error) => {
           console.error("Failed to create commit:", error.message);
@@ -105,7 +122,7 @@ yargs
     }
   )
   .command(
-    "branch",
+    branchCommand,
     "Check if a branch exists",
     (yargs) => {
       yargs
@@ -137,6 +154,16 @@ yargs
           console.log(
             `Repository ${owner}/${repo} has ${n} branch named '${branch}'`
           );
+          writeResultToGithubOutputFile([
+            {
+              label: "command",
+              value: branchCommand,
+            },
+            {
+              label: "hasBranch",
+              value: n.toString(),
+            },
+          ]);
         })
         .catch((error) => {
           console.error("Failed to check if branch exists:", error.message);
