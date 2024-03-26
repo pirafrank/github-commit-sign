@@ -9,14 +9,17 @@ const {
   checkIfBranchExists,
 } = require("./index");
 
+
 const commitCommand = "commit";
 const branchCommand = "branch"
 
 const appendLineToFile = (filename, line) => {
-  fs.appendFile(filename, `${line}\n`, function (err) {
-    if (err) throw err;
-    console.log(`Saved data to ${filename}.`);
-  });
+  try {
+    fs.appendFileSync(filename, `${line}\n`);
+  } catch (e) {
+    console.error(`Error appending line to file ${filename}: ${e.message}`);
+    throw e;
+  }
 };
 
 const writeResultToGithubOutputFile = (results) => {
