@@ -45,6 +45,19 @@ function arrayHasElements(array) {
   return arrayIsArray(array) && array.length > 0;
 }
 
+function removeEmptysFromArray(array) {
+  return array.filter((item) =>
+    item !== undefined
+    && item !== null
+    && typeof item === "string"
+    && item !== ""
+  );
+}
+
+function removeDuplicatesFromArray(array) {
+  return [...new Set(array)];
+}
+
 function checkChangedOrDeletedFiles(changedFiles, deletedFiles) {
   const changedFilesExist = arrayHasElements(changedFiles);
   const deletedFilesExist = arrayHasElements(deletedFiles);
@@ -57,9 +70,16 @@ function checkChangedOrDeletedFiles(changedFiles, deletedFiles) {
 }
 
 function extractChangedOrDeletedFiles(changedFiles, deletedFiles) {
+  changedFiles = arrayIsArray(changedFiles)
+    ? removeDuplicatesFromArray(removeEmptysFromArray(changedFiles))
+    : [];
+  deletedFiles = arrayIsArray(deletedFiles)
+    ? removeDuplicatesFromArray(removeEmptysFromArray(deletedFiles))
+    : [];
+
   return {
-    changedFiles: arrayIsArray(changedFiles) ? changedFiles : [],
-    deletedFiles: arrayIsArray(deletedFiles) ? deletedFiles : [],
+    changedFiles: changedFiles,
+    deletedFiles: deletedFiles
   };
 }
 
