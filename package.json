@@ -1,8 +1,12 @@
 {
-  "name": "github-graphql-client",
+  "name": "@pirafrank/github-graphql-client",
   "version": "0.1.0",
   "description": "Simple GitHub client to commit via their graphql APIs",
   "main": "index.js",
+  "private": false,
+  "bin": {
+    "ggh": "github.js"
+  },
   "scripts": {
     "gh": "node github.js",
     "test": "jest"
@@ -14,8 +18,17 @@
     "client",
     "commit"
   ],
-  "author": "Francesco Pira",
+  "author": "pirafrank",
+  "url": "https://fpira.com/",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pirafrank/github-graphql-client.git"
+  },
+  "homepage": "https://github.com/pirafrank/github-graphql-client",
+  "bugs": {
+    "url": "https://github.com/pirafrank/github-graphql-client/issues"
+  },
   "dependencies": {
     "graphql": "^16.8.1",
     "urql": "^4.0.6",
