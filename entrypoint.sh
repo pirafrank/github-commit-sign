@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
 set -e
-node /app/github.js $@
+argv=(node /app/github.js "$@")
+cmd=$(printf '%q ' "${argv[@]}")
+eval $cmd
