@@ -27,19 +27,16 @@ describe("createCommitOnBranch", () => {
       "the description of the commit"
     );
     console.log(JSON.stringify(result, null, 2));
-    expect(result).toMatchObject({
-      data: {
-        createCommitOnBranch: {
-          commit: {
-            url: expect.stringMatching(
-              new RegExp(
-                "^https:\/\/github\.com\/"+repoOwner+"\/"+repoName+"\/commit\/[a-fA-F0-9]{40}$"
-              )
-            ),
-          },
-        },
-      },
-    });
+    const commitUrl = result?.commitUrl || "";
+    expect(commitUrl).toMatch(
+      new RegExp(
+        "^https://github.com/" +
+          repoOwner +
+          "/" +
+          repoName +
+          "/commit/[a-fA-F0-9]{40}$"
+      )
+    );
   });
   test("createCommitOnBranch, BAD branch", async () => {
     expect(async () => {
