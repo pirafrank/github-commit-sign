@@ -1,0 +1,38 @@
+name: Pull Request
+
+on:
+  # Note that GITHUB_SHA for this event is the last merge commit of the pull
+  # request merge branch. If you want to get the commit ID for the last commit
+  # to the head branch of the pull request,
+  # use github.event.pull_request.head.sha instead.
+  # Docs: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+
+      - name: Set .nvmrc content to stage output
+        id: nvmrc
+        run: |
+          echo "node_version=$(cat .nvmrc | sed 's/v//g')" >> $GITHUB_OUTPUT
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.nvmrc.outputs.nvmrc }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TKN }}
