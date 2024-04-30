@@ -1,0 +1,8 @@
+node_modules
+.gitignore
+*.test.js
+jest.config.js
+.docker
+.github
+.vscode
+dummy

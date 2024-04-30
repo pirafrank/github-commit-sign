@@ -11,7 +11,8 @@
     "gh": "node github.js",
     "test": "jest",
     "test:index": "jest --testPathPattern=index.test.js",
-    "test:github": "jest --testPathPattern=github.test.js"
+    "test:github": "jest --testPathPattern=github.test.js",
+    "docker:build": "docker build -t github-graphql-client -f Dockerfile ."
   },
   "keywords": [
     "git",
