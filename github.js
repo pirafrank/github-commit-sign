@@ -96,7 +96,6 @@ yargs
         commitDescription,
       } = argv;
 
-      init();
       createCommitOnBranch(
         owner,
         repo,
@@ -150,7 +149,6 @@ yargs
     },
     (argv) => {
       const { owner, repo, branch } = argv;
-      init();
       checkIfBranchExists(owner, repo, branch)
         .then((response) => {
           const n = response ? "a" : "no";
@@ -178,5 +176,8 @@ yargs
   .alias({
     h: "help",
     v: "version"
+  })
+  .check(() => {
+    return init();
   })
   .help().argv;

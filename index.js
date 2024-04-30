@@ -18,7 +18,7 @@ let client = null;
 function init(token, apiUrl) {
   githubToken = token || process.env.GITHUB_TOKEN;
   if (!githubToken) {
-    throw new Error("ERROR: GITHUB_TOKEN environment variable not set.");
+    throw new Error("Error: token argument missing or GITHUB_TOKEN env var not set.");
   }
 
   GITHUB_GRAPHQL_URL =
@@ -35,6 +35,8 @@ function init(token, apiUrl) {
       },
     },
   });
+
+  return true;
 }
 
 function arrayIsArray(array) {
