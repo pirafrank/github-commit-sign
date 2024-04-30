@@ -12,6 +12,7 @@ const {
 
 const commitCommand = "commit";
 const branchCommand = "branch"
+const knownCommands = [commitCommand, branchCommand];
 
 const appendLineToFile = (filename, line) => {
   try {
@@ -120,6 +121,7 @@ yargs
         })
         .catch((error) => {
           console.error("Failed to create commit:", error.message);
+          process.exit(1);
         });
     }
   )
@@ -168,6 +170,7 @@ yargs
         })
         .catch((error) => {
           console.error("Failed to check if branch exists:", error.message);
+          process.exit(1);
         });
     }
   )
@@ -175,7 +178,14 @@ yargs
   .version(CURRENT_VERSION)
   .alias({
     h: "help",
-    v: "version"
+    v: "version",
+  })
+  .check((argv) => {
+    const cmd = argv._[0];
+    if (!knownCommands.includes(cmd)) {
+      throw new Error(`Unknown command: ${cmd}`);
+    }
+    return true;
   })
   .check(() => {
     return init();

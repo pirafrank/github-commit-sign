@@ -85,6 +85,16 @@ function extractChangedOrDeletedFiles(changedFiles, deletedFiles) {
   };
 }
 
+function checkErrorResponse(response) {
+  if (!!response.errors || !!response.error || !response.data) {
+    console.error(
+      "Error response from API:",
+      JSON.stringify(response, null, 2)
+    );
+    throw new Error("Received error response from API");
+  }
+}
+
 async function fetchBranchData(repoOwner, repoName, branchName) {
   const query = `
     query($owner: String!, $repo: String!, $branch: String!) {
@@ -107,10 +117,11 @@ async function fetchBranchData(repoOwner, repoName, branchName) {
 
   try {
     const response = await client.query(query, variables);
+    checkErrorResponse(response);
     return response;
   } catch (error) {
     console.error(
-      `Error while trying to fetching data from API: ${error.message}`
+      `Error while trying to fetch data from API: ${error.message}`
     );
     throw error;
   }
@@ -200,6 +211,7 @@ async function createCommitOnBranch(
     const response = await client
       .mutation(graphqlRequest.query, graphqlRequest.variables)
       .toPromise();
+    checkErrorResponse(response);
     return {
       data: response,
       commitUrl: response?.data?.createCommitOnBranch?.commit?.url || null
