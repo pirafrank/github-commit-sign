@@ -1,6 +1,6 @@
 {
   "name": "@pirafrank/github-graphql-client",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Simple GitHub client to commit via their graphql APIs",
   "main": "index.js",
   "private": false,
