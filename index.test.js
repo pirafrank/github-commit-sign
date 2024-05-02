@@ -25,7 +25,7 @@ describe("createCommitOnBranch", () => {
       "this is a commit msg",
       "the description of the commit"
     );
-    console.log(JSON.stringify(result, null, 2));
+    //console.log(JSON.stringify(result, null, 2));
     const commitUrl = result?.commitUrl || "";
     expect(commitUrl).toMatch(
       new RegExp(

@@ -6,3 +6,5 @@ jest.config.js
 .github
 .vscode
 dummy
+.env
+.env*
