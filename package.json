@@ -9,9 +9,9 @@
   },
   "scripts": {
     "gh": "node github.js",
-    "test": "jest",
-    "test:index": "jest --testPathPattern=index.test.js",
-    "test:github": "jest --testPathPattern=github.test.js",
+    "test": "jest --runInBand",
+    "test:index": "jest --runInBand --testPathPattern=index.test.js",
+    "test:github": "jest --runInBand --testPathPattern=github.test.js",
     "docker:build": "docker build -t github-graphql-client -f Dockerfile .",
     "docker:test": "./test.docker.sh",
     "docker:all": "npm run docker:build && npm run docker:test"
