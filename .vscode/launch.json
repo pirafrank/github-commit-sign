@@ -31,6 +31,54 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "commit good branch",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/github.js",
+      "args": [
+        "commit",
+        "--owner",
+        "pirafrank",
+        "--repo",
+        "test-repo",
+        "--branch",
+        "main",
+        "-c",
+        "dummy/file1.txt",
+        "-m",
+        "this is a commit msg"
+      ],
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "commit BAD branch",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/github.js",
+      "args": [
+        "commit",
+        "--owner",
+        "pirafrank",
+        "--repo",
+        "test-repo",
+        "--branch",
+        "not-main",
+        "-c",
+        "dummy/file1.txt",
+        "-m",
+        "this is a commit msg"
+      ],
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "branch exists",
       "skipFiles": [
         "<node_internals>/**"
@@ -38,9 +86,31 @@
       "program": "${workspaceFolder}/github.js",
       "args": [
         "branch",
-        "--owner", "pirafrank",
-        "--repo", "test-repo",
-        "--branch", "main"
+        "--owner",
+        "pirafrank",
+        "--repo",
+        "test-repo",
+        "--branch",
+        "main"
+      ],
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "branch does NOT exist",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/github.js",
+      "args": [
+        "branch",
+        "--owner",
+        "pirafrank",
+        "--repo",
+        "test-repo",
+        "--branch",
+        "not-main"
       ],
       "envFile": "${workspaceFolder}/.env"
     }

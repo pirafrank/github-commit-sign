@@ -1,6 +1,7 @@
 const fs = require("fs");
 const yargs = require("yargs");
 const CURRENT_VERSION = require("./package.json").version;
+const { info, error, debug } = require("./src/log");
 
 const {
   init,
@@ -12,12 +13,13 @@ const {
 
 const commitCommand = "commit";
 const branchCommand = "branch"
+const knownCommands = [commitCommand, branchCommand];
 
 const appendLineToFile = (filename, line) => {
   try {
     fs.appendFileSync(filename, `${line}\n`);
   } catch (e) {
-    console.error(`Error appending line to file ${filename}: ${e.message}`);
+    error(`Error appending line to file ${filename}: ${e.message}`);
     throw e;
   }
 };
@@ -95,8 +97,7 @@ yargs
         commitMessage,
         commitDescription,
       } = argv;
-
-      init();
+      debug("Passed args:", JSON.stringify(argv, null, 2));
       createCommitOnBranch(
         owner,
         repo,
@@ -107,7 +108,7 @@ yargs
         commitDescription
       )
         .then((response) => {
-          console.log(`Commit created: ${response.commitUrl}`);
+          info(`Commit created: ${response.commitUrl}`);
           writeResultToGithubOutputFile([
             {
               label: "command",
@@ -119,8 +120,9 @@ yargs
             },
           ]);
         })
-        .catch((error) => {
-          console.error("Failed to create commit:", error.message);
+        .catch((err) => {
+          error("Failed to create commit:", err.message);
+          process.exit(1);
         });
     }
   )
@@ -150,11 +152,11 @@ yargs
     },
     (argv) => {
       const { owner, repo, branch } = argv;
-      init();
+      debug("Passed args:", JSON.stringify(argv, null, 2));
       checkIfBranchExists(owner, repo, branch)
         .then((response) => {
           const n = response ? "a" : "no";
-          console.log(
+          info(
             `Repository ${owner}/${repo} has ${n} branch named '${branch}'`
           );
           writeResultToGithubOutputFile([
@@ -168,8 +170,9 @@ yargs
             },
           ]);
         })
-        .catch((error) => {
-          console.error("Failed to check if branch exists:", error.message);
+        .catch((err) => {
+          error("Failed to check if branch exists:", err.message);
+          process.exit(1);
         });
     }
   )
@@ -177,6 +180,16 @@ yargs
   .version(CURRENT_VERSION)
   .alias({
     h: "help",
-    v: "version"
+    v: "version",
+  })
+  .check((argv) => {
+    const cmd = argv._[0];
+    if (!knownCommands.includes(cmd)) {
+      throw new Error(`Unknown command: ${cmd}`);
+    }
+    return true;
+  })
+  .check(() => {
+    return init();
   })
   .help().argv;

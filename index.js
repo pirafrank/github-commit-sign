@@ -4,6 +4,7 @@ const {
   cacheExchange,
   fetchExchange
 } = require("@urql/core");
+const { info, error, debug } = require("./src/log");
 
 let GITHUB_GRAPHQL_URL = null;
 let githubToken = null;
@@ -16,9 +17,9 @@ let client = null;
  * @param {string} apiUrl GitHub GraphQL API URL
  */
 function init(token, apiUrl) {
-  githubToken = token || process.env.GITHUB_TOKEN;
+  const githubToken = token || process.env.GITHUB_TOKEN;
   if (!githubToken) {
-    throw new Error("ERROR: GITHUB_TOKEN environment variable not set.");
+    throw new Error("Error: token argument missing or GITHUB_TOKEN env var not set.");
   }
 
   GITHUB_GRAPHQL_URL =
@@ -35,6 +36,8 @@ function init(token, apiUrl) {
       },
     },
   });
+
+  return true;
 }
 
 function arrayIsArray(array) {
@@ -83,6 +86,13 @@ function extractChangedOrDeletedFiles(changedFiles, deletedFiles) {
   };
 }
 
+function checkErrorResponse(response) {
+  if (!!response.errors || !!response.error || !response.data) {
+    error("Error response from API:", JSON.stringify(response, null, 2));
+    throw new Error("Received error response from API");
+  }
+}
+
 async function fetchBranchData(repoOwner, repoName, branchName) {
   const query = `
     query($owner: String!, $repo: String!, $branch: String!) {
@@ -105,12 +115,13 @@ async function fetchBranchData(repoOwner, repoName, branchName) {
 
   try {
     const response = await client.query(query, variables);
+    checkErrorResponse(response);
     return response;
-  } catch (error) {
-    console.error(
-      `Error while trying to fetching data from API: ${error.message}`
+  } catch (err) {
+    error(
+      `Error while trying to fetch data from API: ${err.message}`
     );
-    throw error;
+    throw err;
   }
 }
 
@@ -166,8 +177,8 @@ async function createCommitOnBranch(
     changedFiles,
     deletedFiles
   ));
-  console.log("Changed files:", JSON.stringify(changedFiles, null, 2));
-  console.log("Deleted files:", JSON.stringify(deletedFiles, null, 2));
+  info("Changed files:", JSON.stringify(changedFiles, null, 2));
+  info("Deleted files:", JSON.stringify(deletedFiles, null, 2));
 
   if (!commitMessage) {
     throw new Error("No commit message provided. Aborting.");
@@ -198,15 +209,16 @@ async function createCommitOnBranch(
     const response = await client
       .mutation(graphqlRequest.query, graphqlRequest.variables)
       .toPromise();
+    checkErrorResponse(response);
     return {
       data: response,
       commitUrl: response?.data?.createCommitOnBranch?.commit?.url || null
     };
-  } catch (error) {
-    console.error(
-      `Error while performing commit action via GraphQL API: ${error.message}`
+  } catch (err) {
+    error(
+      `Error while performing commit action via GraphQL API: ${err.message}`
     );
-    throw error;
+    throw err;
   }
 }
 

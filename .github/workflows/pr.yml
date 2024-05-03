@@ -36,3 +36,25 @@ jobs:
         run: npm run test
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TKN }}
+
+      # docs: https://github.com/marketplace/actions/build-and-push-docker-images
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # docs: https://docs.docker.com/build/ci/github-actions/test-before-push/
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          push: false
+          context: .
+          load: true
+          tags: github-graphql-client:latest
+
+      - name: Run Docker tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TKN }}
+        run: npm run docker:test
+        continue-on-error: true

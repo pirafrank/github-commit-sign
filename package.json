@@ -1,6 +1,6 @@
 {
   "name": "@pirafrank/github-graphql-client",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Simple GitHub client to commit via their graphql APIs",
   "main": "index.js",
   "private": false,
@@ -9,7 +9,12 @@
   },
   "scripts": {
     "gh": "node github.js",
-    "test": "jest"
+    "test": "jest --runInBand",
+    "test:index": "jest --runInBand --testPathPattern=index.test.js",
+    "test:github": "jest --runInBand --testPathPattern=github.test.js",
+    "docker:build": "docker build -t github-graphql-client -f Dockerfile .",
+    "docker:test": "./test.docker.sh",
+    "docker:all": "npm run docker:build && npm run docker:test"
   },
   "keywords": [
     "git",
