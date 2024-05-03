@@ -7,6 +7,13 @@ if [ -z "$GITHUB_TOKEN" ]; then
   exit 1
 fi
 
+if [[ "$DEBUG" == "true" ]]; then
+  echo "first arg"
+  echo $1
+  echo "all args:"
+  echo $@
+fi
+
 argv=(node /app/github.js "$@")
 cmd=$(printf '%q ' "${argv[@]}")
 eval $cmd

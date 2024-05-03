@@ -45,7 +45,7 @@ const error = (...args) => {
 };
 
 const debug = (...args) => {
-  if (!!process.env.DEBUG) {
+  if (!!process.env.DEBUG && process.env.DEBUG === "true") {
     const prefix = getPrefix("DEBUG");
     console.log(prefix, ...args);
   }

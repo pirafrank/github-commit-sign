@@ -8,6 +8,10 @@ inputs:
     description: 'Arguments to pass to the Dockerfile entrypoint.'
     required: true
     default: '--help'
+  debug:
+    description: 'Whether to enable debug mode.'
+    required: false
+    default: 'false'
 outputs:
   command:
     description: 'The command that was executed.'
@@ -18,7 +22,8 @@ outputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  #env:
+  env:
+    DEBUG: ${{ inputs.debug }}
     # GITHUB_TOKEN is already available in the action container context
     # but be sure that it has 'writer' permissions on the target repository.
   args:
