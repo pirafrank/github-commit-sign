@@ -14,6 +14,4 @@ if [[ "$DEBUG" == "true" ]]; then
   echo $@
 fi
 
-argv=(node /app/github.js "$@")
-cmd=$(printf '%q ' "${argv[@]}")
-eval $cmd
+eval "node /app/github.js $@"
