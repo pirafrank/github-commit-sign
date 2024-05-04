@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source .env.sh
+# following commands should work without the GITHUB_TOKEN needing to be set.
 
 echo "************** help *****************"
 
@@ -8,9 +8,20 @@ echo "************** help *****************"
 docker run --rm \
 -v ./dummy:/app/dummy \
 -w /app \
--e GITHUB_TOKEN \
 -e DEBUG \
 github-graphql-client:latest "--help"
+
+echo "************** version *****************"
+
+# test handling of single parameter
+docker run --rm \
+-v ./dummy:/app/dummy \
+-w /app \
+-e DEBUG \
+github-graphql-client:latest "-v"
+
+# commands below need GITHUB_TOKEN to be set.
+source .env.sh
 
 echo "************ branch arg missing *******************"
 
