@@ -25,9 +25,9 @@ jobs:
           echo "node_version=$(cat .nvmrc | sed 's/v//g')" >> $GITHUB_OUTPUT
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ steps.nvmrc.outputs.nvmrc }}
+          node-version: ${{ steps.nvmrc.outputs.node_version }}
 
       - name: Install dependencies
         run: npm ci
