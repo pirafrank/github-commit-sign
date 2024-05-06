@@ -114,7 +114,7 @@ You can use this module as a GitHub Action. It is a Docker-based action.
 ```yaml
     # Print help
     - name: Print graphQL client help
-      uses: pirafrank/github-graphql-client@v1
+      uses: pirafrank/github-graphql-client@v0
       with:
         args: "--help"
 ```
@@ -132,7 +132,7 @@ To commit to other repositories, you may need to override the default `GITHUB_TO
     # Commit changes...
     - name: Commit changes
       id: commit_changes
-      uses: pirafrank/github-graphql-client@v1
+      uses: pirafrank/github-graphql-client@v0
       if: ${{ vars.RUN_COMMIT_CHANGES == 'true' }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

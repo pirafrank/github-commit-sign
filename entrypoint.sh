@@ -2,7 +2,9 @@
 
 set -e
 
-if [ -z "$GITHUB_TOKEN" ]; then
+# if the first argument is not an option, a command has been issued,
+# and we need to check if the GITHUB_TOKEN is set.
+if [[ "$1" != -* ]] && [[ -z "$GITHUB_TOKEN" ]]; then
   echo "GITHUB_TOKEN is not set. Exiting."
   exit 1
 fi
