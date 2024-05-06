@@ -21,7 +21,15 @@ docker run --rm \
 github-graphql-client:latest "-v"
 
 # commands below need GITHUB_TOKEN to be set.
-source .env.sh
+if [[ -f .env.sh ]]; then
+  echo "Sourcing .env.sh file"
+  source .env.sh
+elif [[ ! -z "$GITHUB_TOKEN" ]]; then
+  echo "No .env.sh file set, reading GITHUB_TOKEN from environment"
+else
+  echo "GITHUB_TOKEN not set and .env.sh does not exist. Exiting..."
+  exit 1
+fi
 
 echo "************ branch arg missing *******************"
 
