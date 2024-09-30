@@ -64,7 +64,7 @@ jobs:
           push: false
           context: .
           load: true
-          tags: github-graphql-client:latest
+          tags: github-commit-sign:latest
 
       - name: Run Docker tests
         env:
