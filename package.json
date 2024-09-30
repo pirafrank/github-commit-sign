@@ -1,7 +1,7 @@
 {
   "name": "@pirafrank/github-commit-sign",
   "version": "0.1.4",
-  "description": "Simple GitHub client to commit via their graphql APIs",
+  "description": "Simple GitHub client to make signed commits via their GraphQL APIs",
   "main": "index.js",
   "private": false,
   "bin": {

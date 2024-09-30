@@ -1,0 +1,12 @@
+node_modules
+.env
+.env.sh
+*.json
+action.yml
+dummy/file1.txt
+dummy/file2.txt
+Dockerfile
+.dockerignore
+.github/workflows/pr.yml
+.github/workflows/release.yml
+

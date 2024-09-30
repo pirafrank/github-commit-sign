@@ -1,4 +1,4 @@
-name: 'GitHub GraphQL Client'
+name: 'GitHub Commit Sign'
 description: 'Perform multi-file signed commits on a GitHub repo through their GraphQL APIs.'
 branding:
   icon: edit-3
