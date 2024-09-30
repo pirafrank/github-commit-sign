@@ -1,6 +1,6 @@
-# GitHub GraphQL API client in Node.js
+# GitHub Commit Sign
 
-A thin wrapper to commit on a GitHub repo through their GraphQL APIs. Useful to create signed commits in CI/CD environments.
+A thin wrapper to perform signed commits to a GitHub repository through their GraphQL APIs. Useful to create signed commits in CI/CD environments.
 
 Offered as node module and CLI tool.
 
@@ -113,7 +113,7 @@ You can use this module as a GitHub Action. It is a Docker-based action.
 
 ```yaml
     # Print help
-    - name: Print graphQL client help
+    - name: Print help
       uses: pirafrank/github-commit-sign@v0
       with:
         args: "--help"
