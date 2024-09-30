@@ -1,5 +1,5 @@
 {
-  "name": "@pirafrank/github-graphql-client",
+  "name": "@pirafrank/github-commit-sign",
   "version": "0.1.3",
   "description": "Simple GitHub client to commit via their graphql APIs",
   "main": "index.js",
@@ -12,7 +12,7 @@
     "test": "jest --runInBand",
     "test:index": "jest --runInBand --testPathPattern=index.test.js",
     "test:github": "jest --runInBand --testPathPattern=github.test.js",
-    "docker:build": "docker build -t github-graphql-client -f Dockerfile .",
+    "docker:build": "docker build -t github-commit-sign -f Dockerfile .",
     "docker:test": "./test.docker.sh",
     "docker:all": "npm run docker:build && npm run docker:test"
   },
@@ -21,18 +21,20 @@
     "github",
     "graphql",
     "client",
-    "commit"
+    "commit",
+    "signed",
+    "sign"
   ],
   "author": "pirafrank",
   "url": "https://fpira.com/",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pirafrank/github-graphql-client.git"
+    "url": "git+https://github.com/pirafrank/github-commit-sign.git"
   },
-  "homepage": "https://github.com/pirafrank/github-graphql-client",
+  "homepage": "https://github.com/pirafrank/github-commit-sign",
   "bugs": {
-    "url": "https://github.com/pirafrank/github-graphql-client/issues"
+    "url": "https://github.com/pirafrank/github-commit-sign/issues"
   },
   "dependencies": {
     "graphql": "^16.8.1",

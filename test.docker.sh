@@ -9,7 +9,7 @@ docker run --rm \
 -v ./dummy:/app/dummy \
 -w /app \
 -e DEBUG \
-github-graphql-client:latest "--help"
+github-commit-sign:latest "--help"
 
 echo "************** version *****************"
 
@@ -18,7 +18,7 @@ docker run --rm \
 -v ./dummy:/app/dummy \
 -w /app \
 -e DEBUG \
-github-graphql-client:latest "-v"
+github-commit-sign:latest "-v"
 
 # commands below need GITHUB_TOKEN to be set.
 if [[ -f .env.sh ]]; then
@@ -39,7 +39,7 @@ docker run --rm \
 -w /app \
 -e GITHUB_TOKEN \
 -e DEBUG \
-github-graphql-client:latest commit -o pirafrank -r 'test-repo' -c dummy/file1.txt -m 'this is a commit msg'
+github-commit-sign:latest commit -o pirafrank -r 'test-repo' -c dummy/file1.txt -m 'this is a commit msg'
 
 echo "************** all separated *****************"
 
@@ -49,7 +49,7 @@ docker run --rm \
 -w /app \
 -e GITHUB_TOKEN \
 -e DEBUG \
-github-graphql-client:latest commit -o pirafrank -r 'test-repo' -b main -c dummy/file1.txt -m onewordcommitmsg
+github-commit-sign:latest commit -o pirafrank -r 'test-repo' -b main -c dummy/file1.txt -m onewordcommitmsg
 
 echo "************** all as one arg *****************"
 
@@ -61,4 +61,4 @@ docker run --rm \
 -w /app \
 -e GITHUB_TOKEN \
 -e DEBUG \
-github-graphql-client:latest "commit -o pirafrank -r "test-repo" -b main -c dummy/file1.txt -m 'this is a commit msg'"
+github-commit-sign:latest "commit -o pirafrank -r "test-repo" -b main -c dummy/file1.txt -m 'this is a commit msg'"
