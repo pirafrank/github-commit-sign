@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const fs = require("fs");
 const yargs = require("yargs");
 const CURRENT_VERSION = require("./package.json").version;
@@ -10,9 +12,8 @@ const {
   checkIfBranchExists,
 } = require("./index");
 
-
 const commitCommand = "commit";
-const branchCommand = "branch"
+const branchCommand = "branch";
 const knownCommands = [commitCommand, branchCommand];
 
 const appendLineToFile = (filename, line) => {
@@ -156,9 +157,7 @@ yargs
       checkIfBranchExists(owner, repo, branch)
         .then((response) => {
           const n = response ? "a" : "no";
-          info(
-            `Repository ${owner}/${repo} has ${n} branch named '${branch}'`
-          );
+          info(`Repository ${owner}/${repo} has ${n} branch named '${branch}'`);
           writeResultToGithubOutputFile([
             {
               label: "command",
