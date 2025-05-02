@@ -53,18 +53,22 @@ jobs:
       # docs: https://github.com/marketplace/actions/build-and-push-docker-images
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
       # docs: https://docs.docker.com/build/ci/github-actions/test-before-push/
       - name: Build Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: false
           context: .
+          file: Dockerfile
+          platforms: linux/amd64,linux/arm64
           load: true
-          tags: github-commit-sign:latest
+          tags: ${{ github.repository }}:latest
 
       - name: Run Docker tests
         env:
