@@ -9,7 +9,7 @@ docker run --rm \
 -v ./dummy:/app/dummy \
 -w /app \
 -e DEBUG \
-github-commit-sign:latest "--help"
+docker.io/pirafrank/github-commit-sign:latest "--help"
 
 echo "************** version *****************"
 
@@ -18,7 +18,7 @@ docker run --rm \
 -v ./dummy:/app/dummy \
 -w /app \
 -e DEBUG \
-github-commit-sign:latest "-v"
+docker.io/pirafrank/github-commit-sign:latest "-v"
 
 # commands below need GITHUB_TOKEN to be set.
 if [[ -f .env.sh ]]; then
@@ -39,7 +39,7 @@ docker run --rm \
 -w /app \
 -e GITHUB_TOKEN \
 -e DEBUG \
-github-commit-sign:latest commit -o pirafrank -r 'test-repo' -c dummy/file1.txt -m 'this is a commit msg'
+docker.io/pirafrank/github-commit-sign:latest commit -o pirafrank -r 'test-repo' -c dummy/file1.txt -m 'this is a commit msg'
 
 echo "************** all separated *****************"
 
@@ -49,7 +49,7 @@ docker run --rm \
 -w /app \
 -e GITHUB_TOKEN \
 -e DEBUG \
-github-commit-sign:latest commit -o pirafrank -r 'test-repo' -b main -c dummy/file1.txt -m onewordcommitmsg
+docker.io/pirafrank/github-commit-sign:latest commit -o pirafrank -r 'test-repo' -b main -c dummy/file1.txt -m onewordcommitmsg
 
 echo "************** all as one arg *****************"
 
@@ -61,4 +61,4 @@ docker run --rm \
 -w /app \
 -e GITHUB_TOKEN \
 -e DEBUG \
-github-commit-sign:latest "commit -o pirafrank -r "test-repo" -b main -c dummy/file1.txt -m 'this is a commit msg'"
+docker.io/pirafrank/github-commit-sign:latest "commit -o pirafrank -r "test-repo" -b main -c dummy/file1.txt -m 'this is a commit msg'"

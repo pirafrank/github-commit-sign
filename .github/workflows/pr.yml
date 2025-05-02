@@ -13,6 +13,7 @@ on:
 
 jobs:
   build:
+    name: Build and Test
     runs-on: ubuntu-22.04
 
     steps:
@@ -50,27 +51,66 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TKN }}
 
+  docker_amd64:
+    name: Build and Test for linux/amd64
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       # docs: https://github.com/marketplace/actions/build-and-push-docker-images
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-        with:
-          platforms: linux/amd64,linux/arm64
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
       # docs: https://docs.docker.com/build/ci/github-actions/test-before-push/
-      - name: Build Docker image
+      - name: Build Docker image for linux/amd64
         uses: docker/build-push-action@v6
         with:
           push: false
           context: .
           file: Dockerfile
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           load: true
           tags: ${{ github.repository }}:latest
 
-      - name: Run Docker tests
+      - name: Run Docker tests for linux/amd64
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TKN }}
+        run: npm run docker:test
+
+  docker_arm64:
+    name: Build and Test for linux/arm64
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # docs: https://github.com/marketplace/actions/build-and-push-docker-images
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # docs: https://docs.docker.com/build/ci/github-actions/test-before-push/
+      - name: Build Docker image for linux/arm64
+        uses: docker/build-push-action@v6
+        with:
+          push: false
+          context: .
+          file: Dockerfile
+          platforms: linux/arm64
+          load: true
+          tags: ${{ github.repository }}:latest
+
+      - name: Run Docker tests for linux/arm64
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TKN }}
         run: npm run docker:test
